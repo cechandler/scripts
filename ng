@@ -1,0 +1,12 @@
+#!/bin/bash
+echo -e "<CsoundSynthesizer>\n<CsInstruments>" > tmp 
+cat $1 >> tmp 										#add to beg of orc
+(cat tmp ; echo "</CsInstruments>") > tmp1			#add to end of orc
+sed 's/^/>/' tmp1 > orc							#add > to every orc line
+echo -e "><CsScore>" > tmp2							#add to beg of ngen
+cat $2 >> tmp2
+(cat tmp2 ; echo -e "\n></CsScore>\n></CsoundSynthesizer>") > ngen
+cat ngen >> orc
+mv orc out.gen
+ngen out.gen out.csd
+rm tmp tmp1 tmp2 ngen out.gen
