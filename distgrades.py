@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import csv, sys
 from sys import argv
 
@@ -81,9 +81,6 @@ for entry in gradesCSV:
         Assign 13: {A13}
         Comments: {A13C}
 
-        Assign 14: {A14}
-        Comments: {A14C}
-
         QUIZZES
         Q1: {Q1}
         Q2: {Q2}
@@ -120,7 +117,6 @@ for entry in gradesCSV:
             A11 = entry['A11'],
             A12 = entry['A12'],
             A13 = entry['A13'],
-            A14 = entry['A14'],
             A1C = entry['A1C'],
             A2C = entry['A2C'],
             A3C = entry['A3C'],
@@ -134,7 +130,6 @@ for entry in gradesCSV:
             A11C = entry['A11C'],
             A12C = entry['A12C'],
             A13C = entry['A13C'],
-            A14C = entry['A14C'],
             P1 = entry['Proj 1'],
             P2 = entry['Proj 2'],
             P3 = entry['Proj 3'],
