@@ -66,3 +66,9 @@ def latex_accidentals(key, value, format, meta):
 
 if __name__ == "__main__":
     toJSONFilter(latex_accidentals)
+
+# TO DO:
+# Rework this filter to use the same logic as pandoc-notes.py
+# Where a dictionary stores all possible outputs
+# And the testing is done by testing the existence of a key
+# Then outputting its value if it exists
