@@ -23,7 +23,7 @@ def latex_timesig(key, value, fmt, meta):
 			denominator = timesig.split('/')[1]
 			return [latex('\\lilyTimeSignature{' + numerator + '}{' + denominator + '}')]
 		else:
-			pass
+			return None
 	if key == 'Code':
 		[[thing1, thing2, thing3], timesig] = value
 		if '/' in timesig:
@@ -32,7 +32,15 @@ def latex_timesig(key, value, fmt, meta):
 				denominator = timesig.split('/')[1]
 				return [latex('\\lilyTimeSignature{' + numerator + '}{' + denominator + '}')]
 		else:
-			pass
+			return None
+	else:
+		return None
 
 if __name__ == "__main__":
     toJSONFilter(latex_timesig)
+
+# TO DO
+# in the Code catching portion use a try...except logic to
+# test that the first and last split indices are digits
+# this will allow for things like Element `A/b`
+

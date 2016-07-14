@@ -4,71 +4,54 @@
 Pandoc filter for producing lilyglyphs musical accidentals.
 """
 
-from pandocfilters import toJSONFilter, RawInline, Str
-import sys
+from pandocfilters import toJSONFilter, RawInline, Code, Str
 
-# \natural
-# \sharp
-# \sharpArrowup
-# \sharpArrowdown
-# \sharpArrowboth
-# \sharpSlashslashStem
-# \sharpSlashslashslashStemstem
-# \sharpSlashslashslashStem
-# \sharpSlashslashStemstemstem
-# \doublesharp
-# \flatflat
+accidentalDict = {
+	'nat': '\\hspace*{.3ex}\\natural{}',
+	'b': '\\hspace*{.3ex}\\flat{}',
+	'#': '\\hspace*{.3ex}\\sharp{}',
+	'x': '\\hspace*{.3ex}\\doublesharp{}',
+	'bb': '\\hspace*{.3ex}\\flatflat{}',
+	'sharpArrowup': '\\hspace*{.3ex}\\sharpArrowup{}',
+	'sharpArrowdown': '\\hspace*{.3ex}\\sharpArrowdown{}',
+	'sharpArrowboth': '\\hspace*{.3ex}\\sharpArrowboth{}',
+	'sharpSlashslashStem': '\\hspace*{.3ex}\\sharpSlashslashStem{}',
+	'sharpSlashslashslashStemstem': '\\hspace*{.3ex}\\sharpSlashslashslashStemstem{}',
+	'sharpSlashslashslashStem': '\\hspace*{.3ex}\\sharpSlashslashslashStem{}',
+	'sharpSlashslashStemstemstem': '\\hspace*{.3ex}\\sharpSlashslashStemstemstem{}',
+}
 
-def get_accidental(x):
-	if x[1:] == 'bb':
-		return '\\hspace*{.3ex}\\flatflat{}'
-	elif x[1:] == 'b':
-		return '\\hspace*{.3ex}\\flat{}'
-	elif x[1:] == 'nat':
-		return '\\hspace*{.3ex}\\natural{}'
-	elif x[1:] == '#':
-		return '\\hspace*{.3ex}\\sharp{}'
-	elif x[1:] == 'x':
-		return '\\hspace*{.3ex}\\doublesharp{}'
-	else: 
-		pass
+def latex(x):
+    return RawInline('latex', x)
 
 
-def test_accidental(x):
-	if x[1:] == 'bb':
-		return 1
-	elif x[1:] == 'b':
-		return 1
-	elif x[1:] == 'nat':
-		return 1
-	elif x[1:] == '#':
-		return 1
-	elif x[1:] == 'x':
-		return 1
-	else: 
-		return 0
+def html(x):
+    return RawInline('html', x)
 
 
 def test_notename(x):
-	if (x[0] == 'A' or x[0] == 'B' or x[0] == 'C' or x[0] == 'D' or 
-		x[0] == 'E' or x[0] == 'F' or x[0] == 'G'):
+	if (x == 'A' or x == 'B' or x == 'C' or x == 'D' or 
+		x == 'E' or x == 'F' or x == 'G'):
 		return 1
 	else:
 		return 0
-		
 
-def latex_accidentals(key, value, format, meta):
-    if (key == 'Str' and len(value) <= 4 and 
-    	test_notename(value) == 1 and test_accidental(value) == 1):
-		note = [Str(value[0])]
-		accidental = [RawInline('latex', get_accidental(value))]
-		return note + accidental
+
+def latex_accidentals(key, value, fmt, meta):
+	if key == 'Code':
+		[[thing1, thing2, thing3], contents] = value
+		if test_notename(contents[0]) == 1 and contents[1:] in accidentalDict:
+			note = [Str(contents[0])]
+			accidental = [RawInline('latex', accidentalDict[contents[1:]])]
+			return note + accidental
+		else:
+			return None
+	else:
+		return None
 
 if __name__ == "__main__":
     toJSONFilter(latex_accidentals)
 
-# TO DO:
-# Rework this filter to use the same logic as pandoc-notes.py
-# Where a dictionary stores all possible outputs
-# And the testing is done by testing the existence of a key
-# Then outputting its value if it exists
+# TO DO
+# - test notname and then test contents[1:] for nothing
+# - if nothing, then single note and return Str(contents[0])

@@ -4,7 +4,7 @@
 Pandoc filter for producing lilyglyphs musical notes.
 """
 
-from pandocfilters import toJSONFilter, RawInline, Code, Str
+from pandocfilters import toJSONFilter, RawInline, Code
 
 notes = {
 	'wholeNote': '\\wholeNote{}',
@@ -55,6 +55,8 @@ def latex_notes(key, value, fmt, meta):
 		if timesig in notes:
 			return [latex(notes[timesig])]
 		else:
+			return None
+	else:
 			return None
 
 if __name__ == "__main__":
