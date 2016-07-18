@@ -26,11 +26,10 @@ def latex_timesig(key, value, fmt, meta):
 			return None
 	if key == 'Code':
 		[[thing1, thing2, thing3], timesig] = value
-		if '/' in timesig:
-			if len(timesig) <=5:
-				numerator = timesig.split('/')[0]
-				denominator = timesig.split('/')[1]
-				return [latex('\\lilyTimeSignature{' + numerator + '}{' + denominator + '}')]
+		if '/' in timesig and timesig[0].isdigit() and len(timesig) <=5:
+			numerator = timesig.split('/')[0]
+			denominator = timesig.split('/')[1]
+			return [latex('\\lilyTimeSignature{' + numerator + '}{' + denominator + '}')]
 		else:
 			return None
 	else:

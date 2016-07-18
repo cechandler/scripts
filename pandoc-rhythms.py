@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 """
-Pandoc filter for producing lilyglyphs musical notes.
+Pandoc filter for producing lilyglyphs musical rhythms.
 """
 
 from pandocfilters import toJSONFilter, RawInline, Code
 
-notes = {
+rhythms = {
 	'wholeNote': '\\wholeNote{}',
 	'wholeNoteDotted': '\\wholeNoteDotted{}',
 	'halfNote': '\\halfNote{}',
@@ -49,15 +49,16 @@ def html(x):
     return RawInline('html', x)
 
 
-def latex_notes(key, value, fmt, meta):
+def latex_rhythms(key, value, fmt, meta):
 	if key == 'Code':
-		[[thing1, thing2, thing3], timesig] = value
-		if timesig in notes:
-			return [latex(notes[timesig])]
+		[[thing1, thing2, thing3], contents] = value
+		if contents in rhythms:
+			timesig = [latex(rhythms[contents])]
+			return timesig
 		else:
 			return None
 	else:
 			return None
 
 if __name__ == "__main__":
-    toJSONFilter(latex_notes)
+    toJSONFilter(latex_rhythms)

@@ -40,10 +40,26 @@ def test_notename(x):
 def latex_accidentals(key, value, fmt, meta):
 	if key == 'Code':
 		[[thing1, thing2, thing3], contents] = value
+		# test for Ab, Bb, C#, etc...
 		if test_notename(contents[0]) == 1 and contents[1:] in accidentalDict:
 			note = [Str(contents[0])]
 			accidental = [RawInline('latex', accidentalDict[contents[1:]])]
 			return note + accidental
+		# test for Ab4, Bb2, C#6, etc...
+		elif test_notename(contents[0]) == 1 and contents[-1].isdigit() and contents[1:-1] in accidentalDict:
+			note = [Str(contents[0])]
+			registerNum = [Str(contents[-1])]
+			accidental = [RawInline('latex', accidentalDict[contents[1:-1]])]
+			return note + accidental + registerNum
+		# test for A4, B5, C6, etc...
+		elif test_notename(contents[0]) == 1 and contents[-1].isdigit() and len(contents) == 2:
+			note = [Str(contents[0])]
+			registerNum = [Str(contents[-1])]
+			return note + registerNum
+		# test for A, B, C, etc...
+		elif test_notename(contents[0]) == 1 and len(contents) == 1:
+			note = [Str(contents[0])]
+			return note
 		else:
 			return None
 	else:
@@ -53,5 +69,3 @@ if __name__ == "__main__":
     toJSONFilter(latex_accidentals)
 
 # TO DO
-# - test notname and then test contents[1:] for nothing
-# - if nothing, then single note and return Str(contents[0])
