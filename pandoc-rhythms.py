@@ -6,7 +6,7 @@ Pandoc filter for producing lilyglyphs musical rhythms.
 
 from pandocfilters import toJSONFilter, RawInline, Code
 
-rhythms = {
+rhythmDict = {
 	'wholeNote': '\\wholeNote{}',
 	'wholeNoteDotted': '\\wholeNoteDotted{}',
 	'halfNote': '\\halfNote{}',
@@ -51,10 +51,10 @@ def html(x):
 
 def latex_rhythms(key, value, fmt, meta):
 	if key == 'Code':
-		[[thing1, thing2, thing3], contents] = value
-		if contents in rhythms:
-			timesig = [latex(rhythms[contents])]
-			return timesig
+		[[ident, classes, keyvals], contents] = value
+		if contents in rhythmDict:
+			rhythm = [latex(rhythmDict[contents])]
+			return rhythm
 		else:
 			return None
 	else:

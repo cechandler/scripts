@@ -24,10 +24,8 @@ accidentalDict = {
 def latex(x):
     return RawInline('latex', x)
 
-
 def html(x):
     return RawInline('html', x)
-
 
 def test_notename(x):
 	if (x == 'A' or x == 'B' or x == 'C' or x == 'D' or 
@@ -36,10 +34,9 @@ def test_notename(x):
 	else:
 		return 0
 
-
 def latex_accidentals(key, value, fmt, meta):
 	if key == 'Code':
-		[[thing1, thing2, thing3], contents] = value
+		[[ident, classes, keyvals], contents] = value
 		# test for Ab, Bb, C#, etc...
 		if test_notename(contents[0]) == 1 and contents[1:] in accidentalDict:
 			note = [Str(contents[0])]

@@ -16,7 +16,7 @@ def html(x):
 
 def latex_timesig(key, value, fmt, meta):
 	if key == 'Span':
-		[[ident, classes, kvs], contents] = value
+		[[ident, classes, keyvals], contents] = value
 		if "timesig" in classes:
 			timesig = contents[0]['c']
 			numerator = timesig.split('/')[0]
@@ -25,7 +25,7 @@ def latex_timesig(key, value, fmt, meta):
 		else:
 			return None
 	if key == 'Code':
-		[[thing1, thing2, thing3], timesig] = value
+		[[ident, classes, keyvals], timesig] = value
 		if '/' in timesig and timesig[0].isdigit() and len(timesig) <=5:
 			numerator = timesig.split('/')[0]
 			denominator = timesig.split('/')[1]

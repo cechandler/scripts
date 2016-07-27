@@ -42,7 +42,7 @@ def test_dynamic(x):
 
 def latex_dynamics(key, value, fmt, meta):
 	if key == 'Code':
-		[[thing1, thing2, thing3], contents] = value
+		[[ident, classes, keyvals], contents] = value
 		if test_dynamic(contents) == 1:
 			if contents in dynamicDict:
 				return [latex(dynamicDict[contents])]
