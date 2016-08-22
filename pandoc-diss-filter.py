@@ -101,6 +101,8 @@ def test_dynamic(x):
 def main(key, value, fmt, meta):
 	if key == 'Code':
 		[[ident, classes, keyvals], contents] = value
+		if contents == '->':
+			return [latex('\\textrightarrow')]
 		# test if code contents is a rhythm
 		if contents in rhythmDict:
 			rhythm = [latex(rhythmDict[contents])]
