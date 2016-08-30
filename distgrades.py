@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import csv, sys
 from sys import argv
+from subprocess import call
 
 # USAGE:
 # 1) create a directory for the semester inside a syncing service (Box/Dropbox)
@@ -17,16 +18,20 @@ from sys import argv
 #    grade, etc
 # 4) after updating master-grades.xlsx is saved as master-grades.csv
 # 5) run the script as follows:
-#       python distgrades.py "Course Num" master-grades.csv
-#  e.g. python distgrades.py "MUS 213" master-grades.csv
+#       python distgrades.py "Course Num" master-grades.xlsx
+#  e.g. python distgrades.py "MUS 213" master-grades.xlsx
 
 script, course, infile = argv
 
 # basepath for course folder
-basepath = '/Volumes/Data/Box Sync/Teaching/2015-16 Spring/'+course+'/'
+sharedpath = '/Volumes/Data/Box Sync/2016-17-Fall/'+course+'/'
+gradespath = '/Volumes/Data/Teaching/2016-17-Fall/'+course+'/'
+
+# create csv from xlsx
+call(["xlsx2csv", gradespath+infile, gradespath+infile+".csv"])
 
 # open csv file
-gradesCSV = csv.DictReader(open(basepath+infile))
+gradesCSV = csv.DictReader(open(gradespath+infile+".csv"))
 for entry in gradesCSV:
     # if there's a string in the ID column make the file
     if entry['ID']:
@@ -34,11 +39,11 @@ for entry in gradesCSV:
         filename = entry['First']+' '+entry['Last']+'.txt'
         # directory of the course and student first and last name
         directory = course+' - '+entry['First']+' '+entry['Last']+'/'
-        target = open(basepath+'Students/'+directory+filename, 'w')
+        target = open(sharedpath+directory+filename, 'w')
 
         s = """
         {Course}
-        Spring 2016
+        Fall 2016
         {First} {Last}
 
         ASSIGNMENTS
@@ -97,8 +102,8 @@ for entry in gradesCSV:
         Exam 1: {E1}
         Exam 2: {E2}
 
-        Attendance: {Attend}
-        Participation: {Part}
+        Attendance:
+        Participation:
 
         """.format(
             Course = course,
@@ -139,9 +144,7 @@ for entry in gradesCSV:
             Q4 = entry['Q4'],
             Q5 = entry['Q5'],
             E1 = entry['Exam 1'],
-            E2 = entry['Exam 2'],
-            Attend = entry['Attend'],
-            Part = entry['Part']
+            E2 = entry['Exam 2']
         )
         target.write(s)
     else:
