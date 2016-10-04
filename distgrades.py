@@ -138,11 +138,11 @@ for entry in gradesCSV:
             P1 = entry['Proj 1'],
             P2 = entry['Proj 2'],
             P3 = entry['Proj 3'],
-            Q1 = entry['Q1'],
-            Q2 = entry['Q2'],
-            Q3 = entry['Q3'],
-            Q4 = entry['Q4'],
-            Q5 = entry['Q5'],
+            Q1 = entry['Q1 sub'],
+            Q2 = entry['Q2 sub'],
+            Q3 = entry['Q3 sub'],
+            Q4 = entry['Q4 sub'],
+            Q5 = entry['Q5 sub'],
             E1 = entry['Exam 1'],
             E2 = entry['Exam 2']
         )
