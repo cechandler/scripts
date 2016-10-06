@@ -10,9 +10,8 @@ def removekeys(d, k):
     return d
 
 # open csv files
-# performancesCSV = csv.DictReader(open(str(sys.argv[1])))
-performancesCSV = csv.DictReader(open('/Volumes/Data/Dropbox/Website/performances.csv'))
-worksCSV = csv.DictReader(open('/Volumes/Data/Dropbox/Website/list-of-works.csv'))
+performancesCSV = csv.DictReader(open('/Volumes/Data/GitHub/cechandler.github.io/_data/performances.csv'))
+worksCSV = csv.DictReader(open('/Volumes/Data/GitHub/cechandler.github.io/_data/works.csv'))
 
 # create empty dictionaries
 perfsByPiece = {}
@@ -42,7 +41,7 @@ for entry in performancesCSV:
         perfsByYear.setdefault(entry['Year'],[]).append(entry)
 
 for work in worksCSV:
-    if work['End'] == 'E':
+    if work['Special'] == 'E':
         break
     else:
         # add entries to dictionaries based on composition and year
