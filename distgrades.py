@@ -35,6 +35,9 @@ gradesCSV = csv.DictReader(open(gradespath+infile+".csv"))
 for entry in gradesCSV:
     # if there's a string in the ID column make the file
     if entry['ID']:
+
+        print "Updating %s %s grades file. " % (entry['First'], entry['Last'])
+
         # filename of student's first and last name
         filename = entry['First']+' '+entry['Last']+'.txt'
         # directory of the course and student first and last name
