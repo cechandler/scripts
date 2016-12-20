@@ -105,8 +105,8 @@ for entry in gradesCSV:
         Exam 1: {E1}
         Exam 2: {E2}
 
-        Attendance:
-        Participation:
+        Attendance: {Attend}
+        Participation: {Part}
 
         """.format(
             Course = course,
@@ -147,8 +147,13 @@ for entry in gradesCSV:
             Q4 = entry['Q4 sub'],
             Q5 = entry['Q5 sub'],
             E1 = entry['Exam 1'],
-            E2 = entry['Exam 2']
+            E2 = entry['Exam 2'],
+            Attend = entry['Attend'],
+            Part = entry['Part']
         )
         target.write(s)
+
+        print "Finished updating %s %s grades file. " % (entry['First'], entry['Last'])
+
     else:
         continue
