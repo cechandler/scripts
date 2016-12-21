@@ -49,7 +49,7 @@ for work in worksCSV:
         # workDetails.setdefault(entry['Work'],[]).append(entry)
 
         if work['Work'] in perfsByPiece:
-            print "## %s (%s)" % (work['Work'], work['Year'])
+            print "## %s (%s)\n" % (work['Work'], work['Year'])
             for perf in perfsByPiece[work['Work']]:
                 if perf['Event'] == '':
                     print "%s-%s-%s" % (perf['Year'], perf['Month'],perf['Day'])
