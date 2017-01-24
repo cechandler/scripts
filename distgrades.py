@@ -24,8 +24,8 @@ from subprocess import call
 script, course, infile = argv
 
 # basepath for course folder
-# sharedpath = '/Volumes/Data/Box Sync/2016-17-Spring/'+course+'/'
-sharedpath = '/Volumes/SSD/Users/Chris/Desktop/'+course+'/'
+# sharedpath = '/Volumes/SSD/Users/Chris/Desktop/'+course+'/' # for testing
+sharedpath = '/Volumes/Data/Box Sync/2016-17-Spring/'+course+'/'
 gradespath = '/Volumes/Data/Teaching/2016-17-Spring/'+course+'/'
 
 # create csv from xlsx
@@ -44,7 +44,6 @@ for entry in gradesCSV:
 
         # directory of the course and student first and last name
         directory = course+' - '+entry['First']+' '+entry['Last']+'/'
-        # target = open(sharedpath+directory+filename, 'w')
 
         with open(sharedpath+directory+filename, 'w') as target_file:
 
