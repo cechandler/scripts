@@ -9,7 +9,11 @@ script, infile = argv
 instrCSV = csv.DictReader(open(infile))
 
 for entry in instrCSV:
-    outfile = entry['SampleLibrary']+' '+entry['Name']
+    # outfile = entry['SampleLibrary']+' '+entry['Name']
+    if entry['Family'] is not None:
+        outfile = entry['SampleLibrary']+' - '+entry['Family']+' - '+entry['Name']+'.js'
+    else:
+        outfile = entry['SampleLibrary']+' '+entry['Name']+'.js'
     break
 target = open(outfile, 'w')
 target.truncate()
