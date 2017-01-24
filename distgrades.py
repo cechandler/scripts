@@ -6,26 +6,27 @@ from subprocess import call
 # USAGE:
 # 1) create a directory for the semester inside a syncing service (Box/Dropbox)
 #    with the following structure:
-#       Course Num
+#       Course Number
 #           master-grades.xlsx
 #           master-grades.csv
 #           Students/
-#               "Course Num - First Last/"
-# 2) "Course Num - First Last/" is shared directly with the student via
+#               "Course Number - First Last/"
+# 2) "Course Number - First Last/" is shared directly with the student via
 #     Box/Dropbox/etc
 # 3) master-grades.xlsx contains all students with columns for: email,
 #    student ID, first name, last name, and all graded items, subtotals, final
 #    grade, etc
 # 4) after updating master-grades.xlsx is saved as master-grades.csv
 # 5) run the script as follows:
-#       python distgrades.py "Course Num" master-grades.xlsx
+#       python distgrades.py "Course Number" master-grades.xlsx
 #  e.g. python distgrades.py "MUS 213" master-grades.xlsx
 
 script, course, infile = argv
 
 # basepath for course folder
-sharedpath = '/Volumes/Data/Box Sync/2016-17-Fall/'+course+'/'
-gradespath = '/Volumes/Data/Teaching/2016-17-Fall/'+course+'/'
+# sharedpath = '/Volumes/Data/Box Sync/2016-17-Spring/'+course+'/'
+sharedpath = '/Volumes/SSD/Users/Chris/Desktop/'+course+'/'
+gradespath = '/Volumes/Data/Teaching/2016-17-Spring/'+course+'/'
 
 # create csv from xlsx
 call(["xlsx2csv", gradespath+infile, gradespath+infile+".csv"])
@@ -40,118 +41,104 @@ for entry in gradesCSV:
 
         # filename of student's first and last name
         filename = entry['First']+' '+entry['Last']+'.txt'
+
         # directory of the course and student first and last name
         directory = course+' - '+entry['First']+' '+entry['Last']+'/'
-        target = open(sharedpath+directory+filename, 'w')
+        # target = open(sharedpath+directory+filename, 'w')
 
-        s = """
-        {Course}
-        Fall 2016
-        {First} {Last}
+        with open(sharedpath+directory+filename, 'w') as target_file:
 
-        ASSIGNMENTS
-        Assign 1: {A1}
-        Comments: {A1C}
+            target_file.write('%s \nSpring 2017 \n%s %s\n\n' % (course, entry['First'], entry['Last']))
 
-        Assign 2: {A2}
-        Comments: {A2C}
+            if entry['A1'] or entry['A1C']:
+                target_file.write('ASSIGNMENTS \nAssign 1: %s \n' % entry['A1'])
+                target_file.write('Comments: %s \n\n' % entry['A1C'])
 
-        Assign 3: {A3}
-        Comments: {A3C}
+            if entry['A2'] or entry['A2C']:
+                target_file.write('Assign 2: %s \n' % entry['A2'])
+                target_file.write('Comments: %s \n\n' % entry['A2C'])
 
-        Assign 4: {A4}
-        Comments: {A4C}
+            if entry['A3'] or entry['A3C']:
+                target_file.write('Assign 3: %s \n' % entry['A3'])
+                target_file.write('Comments: %s \n\n' % entry['A3C'])
 
-        Assign 5: {A5}
-        Comments: {A5C}
+            if entry['A4'] or entry['A4C']:
+                target_file.write('Assign 4: %s \n' % entry['A4'])
+                target_file.write('Comments: %s \n\n' % entry['A4C'])
 
-        Assign 6: {A6}
-        Comments: {A6C}
+            if entry['A5'] or entry['A5C']:
+                target_file.write('Assign 5: %s \n' % entry['A5'])
+                target_file.write('Comments: %s \n\n' % entry['A5C'])
 
-        Assign 7: {A7}
-        Comments: {A7C}
+            if entry['A6'] or entry['A6C']:
+                target_file.write('Assign 6: %s \n' % entry['A6'])
+                target_file.write('Comments: %s \n\n' % entry['A6C'])
 
-        Assign 8: {A8}
-        Comments: {A8C}
+            if entry['A7'] or entry['A7C']:
+                target_file.write('Assign 7: %s \n' % entry['A7'])
+                target_file.write('Comments: %s \n\n' % entry['A7C'])
 
-        Assign 9: {A9}
-        Comments: {A9C}
+            if entry['A8'] or entry['A8C']:
+                target_file.write('Assign 8: %s \n' % entry['A8'])
+                target_file.write('Comments: %s \n\n' % entry['A8C'])
 
-        Assign 10: {A10}
-        Comments: {A10C}
+            if entry['A9'] or entry['A9C']:
+                target_file.write('Assign 9: %s \n' % entry['A9'])
+                target_file.write('Comments: %s \n\n' % entry['A9C'])
 
-        Assign 11: {A11}
-        Comments: {A11C}
+            if entry['A10'] or entry['A10C']:
+                target_file.write('Assign 10: %s \n' % entry['A10'])
+                target_file.write('Comments: %s \n\n' % entry['A10C'])
 
-        Assign 12: {A12}
-        Comments: {A12C}
+            if entry['A11'] or entry['A11C']:
+                target_file.write('Assign 11: %s \n' % entry['A11'])
+                target_file.write('Comments: %s \n\n' % entry['A11C'])
 
-        Assign 13: {A13}
-        Comments: {A13C}
+            if entry['A12'] or entry['A12C']:
+                target_file.write('Assign 12: %s \n' % entry['A12'])
+                target_file.write('Comments: %s \n\n' % entry['A12C'])
 
-        QUIZZES
-        Q1: {Q1}
-        Q2: {Q2}
-        Q3: {Q3}
-        Q4: {Q4}
-        Q5: {Q5}
+            if entry['Q1 sub']:
+                target_file.write('QUIZZES \nQ1: %s\n' % entry['Q1 sub'])
 
-        PROJECTS
-        Project 1: {P1}
-        Project 2: {P2}
-        Project 3: {P3}
+            if entry['Q2 sub']:
+                target_file.write('Q2: %s\n' % entry['Q2 sub'])
 
-        EXAMS
-        Exam 1: {E1}
-        Exam 2: {E2}
+            if entry['Q3 sub']:
+                target_file.write('Q3: %s\n' % entry['Q3 sub'])
 
-        Attendance: {Attend}
-        Participation: {Part}
+            if entry['Q4 sub']:
+                target_file.write('Q4: %s\n' % entry['Q4 sub'])
 
-        """.format(
-            Course = course,
-            First = entry['First'],
-            Last = entry['Last'],
-            A1 = entry['A1'],
-            A2 = entry['A2'],
-            A3 = entry['A3'],
-            A4 = entry['A4'],
-            A5 = entry['A5'],
-            A6 = entry['A6'],
-            A7 = entry['A7'],
-            A8 = entry['A8'],
-            A9 = entry['A9'],
-            A10 = entry['A10'],
-            A11 = entry['A11'],
-            A12 = entry['A12'],
-            A13 = entry['A13'],
-            A1C = entry['A1C'],
-            A2C = entry['A2C'],
-            A3C = entry['A3C'],
-            A4C = entry['A4C'],
-            A5C = entry['A5C'],
-            A6C = entry['A6C'],
-            A7C = entry['A7C'],
-            A8C = entry['A8C'],
-            A9C = entry['A9C'],
-            A10C = entry['A10C'],
-            A11C = entry['A11C'],
-            A12C = entry['A12C'],
-            A13C = entry['A13C'],
-            P1 = entry['Proj 1'],
-            P2 = entry['Proj 2'],
-            P3 = entry['Proj 3'],
-            Q1 = entry['Q1 sub'],
-            Q2 = entry['Q2 sub'],
-            Q3 = entry['Q3 sub'],
-            Q4 = entry['Q4 sub'],
-            Q5 = entry['Q5 sub'],
-            E1 = entry['Exam 1'],
-            E2 = entry['Exam 2'],
-            Attend = entry['Attend'],
-            Part = entry['Part']
-        )
-        target.write(s)
+            if entry['Q5 sub']:
+                target_file.write('Q5: %s\n' % entry['Q5 sub'])
+
+            if entry['Proj 1']:
+                target_file.write('\nPROJECTS \nProject 1: %s\n' % entry['Proj 1'])
+
+            if entry['Proj 2']:
+                target_file.write('Project 2: %s\n' % entry['Proj 2'])
+
+            if entry['Proj 3']:
+                target_file.write('Project 3: %s\n' % entry['Proj 3'])
+
+            if entry['Proj 4']:
+                target_file.write('Project 4: %s\n' % entry['Proj 4'])
+
+            if entry['Proj 5']:
+                target_file.write('Project 5: %s\n' % entry['Proj 5'])
+
+            if entry['Exam 1']:
+                target_file.write('\nEXAMS \nExam 1: %s\n' % entry['Exam 1'])
+
+            if entry['Exam 2']:
+                target_file.write('Exam 2: %s\n' % entry['Exam 2'])
+
+            if entry['Attend']:
+                target_file.write('\nAttendance: %s\n' % entry['Attend'])
+
+            if entry['Part']:
+                target_file.write('Participation: %s\n' % entry['Part'])
 
         print "Finished updating %s %s grades file. " % (entry['First'], entry['Last'])
 
