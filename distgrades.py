@@ -25,7 +25,7 @@ script, course, infile = argv
 
 # basepath for course folder
 # sharedpath = '/Volumes/SSD/Users/Chris/Desktop/'+course+'/' # for testing
-sharedpath = '/Volumes/Data/Box Sync/2016-17-Spring/'+course+'/'
+sharedpath = '/Volumes/Data/Box Sync/2016-17-Spring/'+course+' Students/'
 gradespath = '/Volumes/Data/Teaching/2016-17-Spring/'+course+'/'
 
 # create csv from xlsx
