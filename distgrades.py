@@ -97,20 +97,20 @@ for entry in gradesCSV:
                 target_file.write('Assign 12: %s \n' % entry['A12'])
                 target_file.write('Comments: %s \n\n' % entry['A12C'])
 
-            if entry['Q1 sub']:
-                target_file.write('QUIZZES \nQ1: %s\n' % entry['Q1 sub'])
+            if entry['Q1']:
+                target_file.write('QUIZZES \nQ1: %s\n' % entry['Q1'])
 
-            if entry['Q2 sub']:
-                target_file.write('Q2: %s\n' % entry['Q2 sub'])
+            if entry['Q2']:
+                target_file.write('Q2: %s\n' % entry['Q2'])
 
-            if entry['Q3 sub']:
-                target_file.write('Q3: %s\n' % entry['Q3 sub'])
+            if entry['Q3']:
+                target_file.write('Q3: %s\n' % entry['Q3'])
 
-            if entry['Q4 sub']:
-                target_file.write('Q4: %s\n' % entry['Q4 sub'])
+            if entry['Q4']:
+                target_file.write('Q4: %s\n' % entry['Q4'])
 
-            if entry['Q5 sub']:
-                target_file.write('Q5: %s\n' % entry['Q5 sub'])
+            if entry['Q5']:
+                target_file.write('Q5: %s\n' % entry['Q5'])
 
             if entry['Proj 1']:
                 target_file.write('\nPROJECTS \nProject 1: %s\n' % entry['Proj 1'])
