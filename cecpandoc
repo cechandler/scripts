@@ -1,0 +1,98 @@
+#!/bin/bash
+# cecpandoc: custom scripts for pandoc automation
+
+# print usage summary
+if  ( [ $# == 0 ] ) ; then
+    echo ""
+    echo "USAGE SUMMARY                                              "
+    echo "summary: runs pandoc with custom settings based on flag    "
+    echo "arguments: flag infile [outfile]                           "
+    echo "flags:                                                     "
+    echo "  -a assignment                                            "
+    echo "  -c cv                                                    "
+    echo "  -j reveal.js                                             "
+    echo "  -l letter                                                "
+    echo "  -p portfolio                                             "
+    echo "  -r references                                            "
+    echo "  -s statement                                             "
+    echo "  -y syllabus                                              "
+    echo ""
+    exit 0
+fi
+
+# check the number of args
+if  ( [ $# -le 1 ] ) || ( [ $# -gt 3 ] ) ; then
+    echo ""
+    echo "error: incorrect number of arguments ( $# ) "
+    echo "syntax: cecpandoc flag inputfile [outfile]"
+    echo ""
+    exit 1
+fi
+
+# set variables and check args
+FLAG="$1"
+
+if ( [ -e $2 ] ) ; then # check if infile exists
+    INFILE="$2"
+else
+    echo "error: no file named >> $2 << found. quitting."
+    exit 1
+fi
+
+if ( [ $# == 3 ] ) ; then # check if outfile arg exists
+    OUTFILE="$3"
+else # if not name the outfile same as infile
+    OUTFILE=$INFILE
+fi
+
+# function to run pandoc
+# templates replaced based on flags below
+runpandoc() {
+    pandoc "$INFILE" \
+    -o "$OUTFILE.pdf" \
+    --template $PTEMPS/$TEMPLATE \
+    --latex-engine xelatex ; \
+    open "$OUTFILE.pdf" ; \
+}
+
+if ( [ $FLAG == "-a" ] ) ; then # assignment template
+    TEMPLATE="assignment.tex"
+    runpandoc
+elif ( [ $FLAG == "-c" ] ) ; then # cv template
+    python $SCRIPTS/cv-performances-complete-markdown.py > ./performances-complete.md ; \
+    python $SCRIPTS/cv-performances-selected-markdown.py > ./performances-selected.md ; \
+    pandoc "$INFILE" \
+    -o "$OUTFILE.pdf" \
+    --template $PTEMPS/cv.tex \
+    --filter ~/.cabal/bin/pandoc-include \
+    --filter /Volumes/Data/Dropbox/Scripts/pandoc-deflist-to-enumerate.py \
+    --latex-engine xelatex ; \
+    open "$OUTFILE.pdf" ; \
+    # rm ./performances.md ; \
+elif ( [ $FLAG == "-j" ] ) ; then # reveal.js template
+    pandoc \
+    -t revealjs \
+    -s \
+    "$INFILE" \
+    -o "$OUTFILE.html" \
+    --template default.revealjs ; \
+    open "$OUTFILE.html" ;
+elif ( [ $FLAG == "-l" ] ) ; then # cover letter template
+    TEMPLATE="cover-letter.tex"
+    runpandoc
+elif ( [ $FLAG == "-p" ] ) ; then # portfolio template
+    TEMPLATE="references.tex"
+    runpandoc
+elif ( [ $FLAG == "-r" ] ) ; then # references template
+    TEMPLATE="references.tex"
+    runpandoc
+elif ( [ $FLAG == "-s" ] ) ; then # statement template
+    TEMPLATE="statement.tex"
+    runpandoc
+elif ( [ $FLAG == "-y" ] ) ; then # syllabus template
+    TEMPLATE="syllabus.tex"
+    runpandoc
+else
+    echo "error: please check flag argument"
+    exit 1
+fi
