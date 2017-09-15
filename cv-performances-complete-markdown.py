@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import csv, sys
+import csv, sys, os
 from datetime import datetime
 from collections import defaultdict
 
@@ -11,8 +11,8 @@ def removekeys(d, k):
 
 # open csv files
 # performancesCSV = csv.DictReader(open(str(sys.argv[1])))
-performancesCSV = csv.DictReader(open('/Volumes/Data/GitHub/cechandler.github.io/_data/performances.csv'))
-worksCSV = csv.DictReader(open('/Volumes/Data/GitHub/cechandler.github.io/_data/works.csv'))
+performancesCSV = csv.DictReader(open('/Users/cc7zv/GitHub/cechandler.github.io/_data/performances.csv', 'rU'))
+worksCSV = csv.DictReader(open('/Users/cc7zv/GitHub/cechandler.github.io/_data/works.csv', 'rU'))
 
 # create empty dictionaries
 perfsByPiece = {}
@@ -21,14 +21,14 @@ workDetails = {}
 
 # collect all performances in perfsByPiece and perfsByYear
 for entry in performancesCSV:
-    if entry['R'] == 'E':           # stop loop if end of file
-        break
-    elif entry['R'] == 'X':         # skip loop if entry should not be included
-        continue
-    elif entry['Composition'] == '':   # skip loop if row is only a year e.g. 2014
+    # if entry['Reported'] == 'E':           # stop loop if end of file
+    #     break
+    # elif entry['Reported'] == 'X':         # skip loop if entry should not be included
+    #     continue
+    if entry['Composition'] == '':   # skip loop if row is only a year e.g. 2014
         continue
     else:
-        entry = removekeys(entry, ['R']) # remove unnecessary keys from entries (is this necessary?)
+        # entry = removekeys(entry, ['R']) # remove unnecessary keys from entries (is this necessary?)
 
         # add separate key/values for Year, Month, and Day from Date
         # entry['Month'] = perfDate.strftime('%b') # abbreviated month, e.g. Jan

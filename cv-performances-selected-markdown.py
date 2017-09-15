@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import csv, sys
+import csv, sys, os
 from datetime import datetime
 from collections import defaultdict
 
@@ -22,7 +22,7 @@ def fitem(item):
         pass
     return item
 
-with open('/Volumes/Data/GitHub/cechandler.github.io/_data/performances.csv', 'r') as csvin:
+with open('/Users/cc7zv/GitHub/cechandler.github.io/_data/performances.csv', 'rU') as csvin:
     reader = csv.DictReader(csvin)
     data = {k.strip():[fitem(v)] for k,v in reader.next().items()}
     for line in reader:
@@ -31,8 +31,8 @@ with open('/Volumes/Data/GitHub/cechandler.github.io/_data/performances.csv', 'r
             data[k].append(fitem(v))
 
 count = 0
-while count < len(data['Sel']):
-    if 'S' in data['Sel'][count]:
+while count < len(data['Selected']):
+    if 'S' in data['Selected'][count]:
         perfDate = datetime.strptime(data['Date'][count], '%m/%d/%y')
         print "%s/%s/%s" % (perfDate.strftime('%Y'), perfDate.strftime('%m'), perfDate.strftime('%d'))
         print ": *%s* - %s - %s, %s \n" % (data['Composition'][count], data['Performers'][count], data['City'][count], data['State'][count])

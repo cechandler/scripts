@@ -10,8 +10,8 @@ def removekeys(d, k):
     return d
 
 # open csv files
-performancesCSV = csv.DictReader(open('/Volumes/Data/GitHub/cechandler.github.io/_data/performances.csv'))
-worksCSV = csv.DictReader(open('/Volumes/Data/GitHub/cechandler.github.io/_data/works.csv'))
+performancesCSV = csv.DictReader(open('~/GitHub/cechandler.github.io/_data/performances.csv'))
+worksCSV = csv.DictReader(open('~/GitHub/cechandler.github.io/_data/works.csv'))
 
 # create empty dictionaries
 perfsByPiece = {}

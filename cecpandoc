@@ -42,7 +42,7 @@ fi
 if ( [ $# == 3 ] ) ; then # check if outfile arg exists
     OUTFILE="$3"
 else # if not name the outfile same as infile
-    OUTFILE=$INFILE
+    OUTFILE=${INFILE//.md}
 fi
 
 # function to run pandoc
@@ -64,11 +64,10 @@ elif ( [ $FLAG == "-c" ] ) ; then # cv template
     pandoc "$INFILE" \
     -o "$OUTFILE.pdf" \
     --template $PTEMPS/cv.tex \
-    --filter ~/.cabal/bin/pandoc-include \
-    --filter /Volumes/Data/Dropbox/Scripts/pandoc-deflist-to-enumerate.py \
+    --filter pandoc-include \
+    --filter $SCRIPTS/pandoc-deflist-to-enumerate.py \
     --latex-engine xelatex ; \
     open "$OUTFILE.pdf" ; \
-    # rm ./performances.md ; \
 elif ( [ $FLAG == "-j" ] ) ; then # reveal.js template
     pandoc \
     -t revealjs \

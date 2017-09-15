@@ -24,9 +24,9 @@ from subprocess import call
 script, course, infile = argv
 
 # basepath for course folder
-# sharedpath = '/Volumes/SSD/Users/Chris/Desktop/'+course+'/' # for testing
-sharedpath = '/Volumes/Data/Box Sync/2016-17-Spring/'+course+' Students/'
-gradespath = '/Volumes/Data/Teaching/2016-17-Spring/'+course+'/'
+# sharedpath = '/Users/cc7zv/Desktop/'+course+'/' # for testing
+sharedpath = '/Users/cc7zv/Box Sync/2017-18-Fall/'+course+' Students/'
+gradespath = '/Users/cc7zv/Teaching/2017-18-Fall/'+course+'/'
 
 # create csv from xlsx
 call(["xlsx2csv", gradespath+infile, gradespath+infile+".csv"])
@@ -35,7 +35,7 @@ call(["xlsx2csv", gradespath+infile, gradespath+infile+".csv"])
 gradesCSV = csv.DictReader(open(gradespath+infile+".csv"))
 for entry in gradesCSV:
     # if there's a string in the ID column make the file
-    if entry['ID']:
+    if entry['First']:
 
         print "Updating %s %s grades file. " % (entry['First'], entry['Last'])
 
