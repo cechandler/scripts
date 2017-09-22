@@ -10,6 +10,7 @@ if  ( [ $# == 0 ] ) ; then
     echo "flags:                                                     "
     echo "  -a assignment                                            "
     echo "  -c cv                                                    "
+    echo "  -cw web cv                                               "
     echo "  -j reveal.js                                             "
     echo "  -l letter                                                "
     echo "  -p portfolio                                             "
@@ -65,9 +66,19 @@ elif ( [ $FLAG == "-c" ] ) ; then # cv template
     -o "$OUTFILE.pdf" \
     --template $PTEMPS/cv.tex \
     --filter pandoc-include \
+    --filter $SCRIPTS/pandoc-switch.py \
     --filter $SCRIPTS/pandoc-deflist-to-enumerate.py \
     --latex-engine xelatex ; \
     open "$OUTFILE.pdf" ; \
+elif ( [ $FLAG == "-cw" ] ) ; then # cv template
+    python $SCRIPTS/cv-performances-complete-markdown.py > ./performances-complete.md ; \
+    python $SCRIPTS/cv-performances-selected-markdown.py > ./performances-selected.md ; \
+    pandoc "$INFILE" \
+    -o $CECSITE/_includes/$OUTFILE.html \
+    --filter pandoc-include \
+    --filter $SCRIPTS/pandoc-switch.py \
+    --filter $SCRIPTS/pandoc-increase-header.py \
+    --filter $SCRIPTS/pandoc-deflist-to-enumerate.py ;
 elif ( [ $FLAG == "-j" ] ) ; then # reveal.js template
     pandoc \
     -t revealjs \
