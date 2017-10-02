@@ -11,8 +11,11 @@ def latex(x):
     return RawInline('latex', x)
 
 def switch(key, value, format, meta):
-    if key == 'Str' and value == 'Switch~':
-        return [latex('Switch\\mytilde')]
+    if format == 'latex':
+        if key == 'Str' and value == 'Switch~':
+            return [latex('Switch\\mytilde')]
+    else:
+        return None
 
 if __name__ == "__main__":
     toJSONFilter(switch)
