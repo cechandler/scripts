@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import csv, sys, os
+import csv, sys, os, pprint
 from datetime import datetime
 from collections import defaultdict
 
@@ -30,9 +30,11 @@ with open('/Users/cc7zv/GitHub/cechandler.github.io/_data/performances.csv', 'rU
             k=k.strip()
             data[k].append(fitem(v))
 
+# pprint.pprint(data)
+
 count = 0
-while count < len(data['Selected']):
-    if 'S' in data['Selected'][count]:
+while count < len(data['Special']):
+    if 'S' in data['Special'][count]:
         perfDate = datetime.strptime(data['Date'][count], '%m/%d/%y')
         print "%s/%s/%s" % (perfDate.strftime('%Y'), perfDate.strftime('%m'), perfDate.strftime('%d'))
         print ": *%s* - %s - %s, %s \n" % (data['Composition'][count], data['Performers'][count], data['City'][count], data['State'][count])
