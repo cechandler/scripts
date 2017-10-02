@@ -60,8 +60,8 @@ if ( [ $FLAG == "-a" ] ) ; then # assignment template
     TEMPLATE="assignment.tex"
     runpandoc
 elif ( [ $FLAG == "-c" ] ) ; then # cv template
-    python $SCRIPTS/cv-performances-complete-markdown.py > ./performances-complete.md ; \
-    python $SCRIPTS/cv-performances-selected-markdown.py > ./performances-selected.md ; \
+    python $SCRIPTS/cv-performances-markdown.py --complete > ./performances-complete.md ; \
+    python $SCRIPTS/cv-performances-markdown.py --selected > ./performances-selected.md ; \
     pandoc "$INFILE" \
     -o "$OUTFILE.pdf" \
     --template $PTEMPS/cv.tex \
@@ -71,8 +71,8 @@ elif ( [ $FLAG == "-c" ] ) ; then # cv template
     --latex-engine xelatex ; \
     open "$OUTFILE.pdf" ; \
 elif ( [ $FLAG == "-cw" ] ) ; then # cv template
-    python $SCRIPTS/cv-performances-complete-markdown.py > ./performances-complete.md ; \
-    python $SCRIPTS/cv-performances-selected-markdown.py > ./performances-selected.md ; \
+    python $SCRIPTS/cv-performances-markdown.py --complete > ./performances-complete.md ; \
+    python $SCRIPTS/cv-performances-markdown.py --selected > ./performances-selected.md ; \
     pandoc "$INFILE" \
     -o $CECSITE/_includes/$OUTFILE.html \
     --filter pandoc-include \
